@@ -1,0 +1,85 @@
+body {
+  width: 450px;
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  padding: 15px;
+  background: #1e1e1e;
+  color: #ffffff;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+h3 {
+  margin: 0;
+  font-size: 16px;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  box-sizing: border-box;
+  background: #333;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-weight: bold;
+}
+button:hover {
+  background: #0056b3;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 10px;
+}
+#downloadBtn {
+  background: #28a745;
+}
+#downloadBtn:hover {
+  background: #218838;
+}
+.results {
+  max-height: 400px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+.image-item {
+  position: relative;
+  border: 2px solid transparent;
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #2a2a2a;
+}
+.image-item img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}
+.image-item.selected {
+  border-color: #28a745;
+}
+.image-item .checkbox {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  transform: scale(1.3);
+  pointer-events: none;
+  margin: 0;
+}

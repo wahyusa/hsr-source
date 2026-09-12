@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Image Downloader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h3>Image Downloader</h3>
+    <div class="filter-section">
+      <label for="filter">Filter Domain/Path:</label>
+      <input type="text" id="filter" placeholder="e.g., act-webstatic.hoyoverse.com">
+      <button id="scanBtn">Scan Images</button>
+    </div>
+    
+    <div class="actions" style="display: none;">
+      <button id="selectAllBtn">Deselect All</button>
+      <button id="downloadBtn">Download Selected</button>
+    </div>
+
+    <div id="results" class="results"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

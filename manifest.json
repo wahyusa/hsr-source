@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Image Source Downloader",
+  "version": "1.0",
+  "description": "Extract and download loaded images from specific host/domain paths.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "downloads"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
