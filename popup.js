@@ -159,6 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSelectAllButton();
   });
 
+  const downloadZipBtn = document.getElementById('downloadZipBtn');
+
   downloadBtn.addEventListener('click', () => {
     const selectedUrls = [];
     document.querySelectorAll('.image-item').forEach((item, index) => {
@@ -172,6 +174,82 @@ document.addEventListener('DOMContentLoaded', () => {
       const originalText = downloadBtn.textContent;
       downloadBtn.textContent = `Downloading ${selectedUrls.length}...`;
       setTimeout(() => { downloadBtn.textContent = originalText; }, 2000);
+    }
+  });
+
+  downloadZipBtn.addEventListener('click', async () => {
+    const selectedUrls = [];
+    document.querySelectorAll('.image-item').forEach((item, index) => {
+      if (item.querySelector('input').checked) {
+        selectedUrls.push(foundImages[index]);
+      }
+    });
+
+    if (selectedUrls.length > 0) {
+      const originalText = downloadZipBtn.textContent;
+      downloadZipBtn.textContent = `Zipping ${selectedUrls.length}...`;
+      downloadZipBtn.disabled = true;
+
+      try {
+        const zip = new JSZip();
+        const imgFolder = zip.folder("images");
+        
+        let count = 0;
+        for (const url of selectedUrls) {
+          try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            
+            let filename = "image_" + count;
+            try {
+              const urlObj = new URL(url);
+              const pathParts = urlObj.pathname.split('/');
+              const lastPart = pathParts[pathParts.length - 1];
+              if (lastPart) {
+                filename = lastPart;
+              }
+            } catch (e) {}
+
+            // Ensure unique filename in zip
+            const extensionMatch = filename.match(/\.[0-9a-z]+$/i);
+            const extension = extensionMatch ? extensionMatch[0] : '.png';
+            const baseName = filename.replace(/\.[0-9a-z]+$/i, '');
+            
+            // Just use the name, zip will overwrite if duplicate but we already deduplicated them!
+            // However, it's safer to ensure uniqueness:
+            let finalName = filename;
+            if (imgFolder.file(finalName)) {
+               finalName = `${baseName}_${count}${extension}`;
+            }
+
+            imgFolder.file(finalName, blob);
+            count++;
+            downloadZipBtn.textContent = `Zipping ${count}/${selectedUrls.length}...`;
+          } catch (err) {
+            console.error('Failed to fetch', url, err);
+          }
+        }
+
+        downloadZipBtn.textContent = 'Generating ZIP...';
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        
+        const zipUrl = URL.createObjectURL(zipBlob);
+        
+        // We use chrome.downloads to download the generated zip
+        chrome.downloads.download({
+          url: zipUrl,
+          filename: 'downloaded_images.zip',
+          saveAs: true
+        }, () => {
+           URL.revokeObjectURL(zipUrl);
+        });
+
+      } catch (e) {
+        console.error('Zip generation failed', e);
+      } finally {
+        downloadZipBtn.textContent = originalText;
+        downloadZipBtn.disabled = false;
+      }
     }
   });
 });

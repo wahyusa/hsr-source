@@ -45,9 +45,15 @@ button:hover {
   gap: 10px;
 }
 #downloadBtn {
-  background: #28a745;
+  background: #6c757d;
 }
 #downloadBtn:hover {
+  background: #5a6268;
+}
+#downloadZipBtn {
+  background: #28a745;
+}
+#downloadZipBtn:hover {
   background: #218838;
 }
 .results {

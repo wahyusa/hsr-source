@@ -16,11 +16,15 @@
     
     <div class="actions" style="display: none;">
       <button id="selectAllBtn">Deselect All</button>
-      <button id="downloadBtn">Download Selected</button>
+      <div>
+        <button id="downloadBtn">Download Selected</button>
+        <button id="downloadZipBtn">Download as ZIP</button>
+      </div>
     </div>
 
     <div id="results" class="results"></div>
   </div>
+  <script src="jszip.min.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
